@@ -1,10 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { TableCategoryComponent } from './components/table-category/table-category.component';
+import { FormCategoryComponent } from './components/form-category/form-category.component';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AppComponent],
+      imports: [AppComponent,TableCategoryComponent,FormCategoryComponent],
     }).compileComponents();
   });
 

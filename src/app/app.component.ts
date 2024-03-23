@@ -7,6 +7,9 @@ import { TranslatedWord } from "./shared/model/translateword";
 import { CommonModule } from "@angular/common";
 import { MatTableModule } from "@angular/material/table";
 import { MatIconModule } from "@angular/material/icon";
+import { RouterModule } from "@angular/router";
+import { FormCategoryComponent } from "./components/form-category/form-category.component";
+import { FooterComponent } from "./components/footer/footer.component";
 
 
 
@@ -16,19 +19,10 @@ import { MatIconModule } from "@angular/material/icon";
     standalone: true,
     templateUrl: './app.component.html',
     styleUrl: './app.component.css',
-    imports: [HeaderComponent, TableCategoryComponent,CommonModule,MatTableModule,MatIconModule,]
+    imports: [HeaderComponent, TableCategoryComponent, CommonModule, MatTableModule, MatIconModule, RouterModule, FormCategoryComponent, FooterComponent]
 })
 export class AppComponent {
     title= "first-app";
-    category1= new Category(2,"color",new Date,Language.English,Language.Hebrew,[new TranslatedWord("yellow","צהוב"),
-    new TranslatedWord("blue","כחול"),new TranslatedWord("black","שחור")])
-    category2= new Category(3,"vehicle",new Date,Language.English,Language.Hebrew,[new TranslatedWord("car","מכונית"),
-    new TranslatedWord("bicycle","אופניים"),new TranslatedWord("airplane","מטוס")])
-    category3= new Category(4,"animals",new Date,Language.English,Language.Hebrew,[new TranslatedWord("dog","כלב"),
-    new TranslatedWord("cat","חתול"),new TranslatedWord("fly","ציפור")])
-    categoryArray: Category[] = [this.category1,this.category2,this.category3]
-
-    
 }
 
 

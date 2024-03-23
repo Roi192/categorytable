@@ -1,31 +1,46 @@
-import { Component} from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { Category } from '../../shared/model/category';
 import { Language } from '../../shared/model/language.enum';
 import { TranslatedWord } from '../../shared/model/translateword';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
+import { CategoryService } from '../../services/category.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DeleteCategoryDialogComponent } from '../delete-category-dialog/delete-category-dialog.component';
+import { FormCategoryComponent } from '../form-category/form-category.component';
+import { RouterLink, RouterLinkActive } from '@angular/router';
+
+
 
 @Component({
   selector: 'app-table-category',
   standalone: true,
-  imports: [CommonModule,MatIconModule,MatTableModule,MatButtonModule],
+  imports: [CommonModule,MatIconModule,MatTableModule,MatButtonModule,DatePipe,FormCategoryComponent,MatButtonModule,RouterLink],
   templateUrl: './table-category.component.html',
   styleUrl: './table-category.component.css'
 })
-export class TableCategoryComponent {
+export class TableCategoryComponent implements OnInit {
+sourceword: any;
 
-  category1= new Category(2,"color",new Date,Language.English,Language.Hebrew,[new TranslatedWord("yellow","צהוב"),
-  new TranslatedWord("blue","כחול"),new TranslatedWord("black","שחור")])
-
-  category2= new Category(3,"vehicle",new Date,Language.English,Language.Hebrew,[new TranslatedWord("car","מכונית"),
-  new TranslatedWord("bicycle","אופניים"),new TranslatedWord("airplane","מטוס")])
-
-  category3= new Category(4,"animals",new Date,Language.English,Language.Hebrew,[new TranslatedWord("dog","כלב"),
-  new TranslatedWord("cat","חתול"),new TranslatedWord("fly","ציפור")])
-  categoryArray = [this.category1,this.category2,this.category3]
-
+  constructor(private categoryService : CategoryService,private dialog: MatDialog) {}
   displayedColumns: string[] = ['namecategory','No.ofWords','lasteditdate', 'actions'];  
+  categories : Category[]=[]
+  
 
+  ngOnInit(): void {
+    this.categories=this.categoryService.list()
+    }
+    deleteCategory (id:number,name:string){
+      const dialogRef = this.dialog.open(DeleteCategoryDialogComponent,{data: name,});
+      
+     dialogRef.afterClosed().subscribe(deletionConfirmed => {
+      if(deletionConfirmed){
+      this.categoryService.delete(id)
+      this.categories=this.categoryService.list()
+      }
+    });
+  }
+  
 }
